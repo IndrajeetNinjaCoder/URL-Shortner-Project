@@ -11,7 +11,7 @@ router.get("/api/url/all", getAllUrls)
 router.post('/api/url/create', generateShortCode)
 router.get('/api/clicks', getAllClicks)
 
-// router.get('/:shortID', handleRedirect)
+router.get('/:shortID', handleRedirect)
 
 
 

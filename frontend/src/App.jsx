@@ -1,7 +1,6 @@
 // import "./App.css";
 import { Table } from "./components/Table";
 import { Chart } from "./components/Chart";
-import { InputForm } from "./components/InputForm";
 import { UrlForm } from "./components/UrlForm";
 import { Navbar } from "./components/Navbar";
 
