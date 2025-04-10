@@ -8,6 +8,6 @@ const clickSchema = new mongoose.Schema({
   browser: String,
 });
 
-const click = mongoose.model("Click", clickSchema)
+const Click = mongoose.model("Click", clickSchema)
 
-export default click;
+export default Click;

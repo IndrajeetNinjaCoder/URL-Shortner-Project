@@ -35,23 +35,24 @@ export const fetchUrls = createAsyncThunk('url/fetchAll', async (_, thunkAPI) =>
     const urls = urlsResponse.data;
     const clicks = clicksResponse.data;
 
-    // 🧠 Count clicks per URL
     const clickMap = clicks.reduce((acc, click) => {
       acc[click.urlId] = (acc[click.urlId] || 0) + 1;
       return acc;
     }, {});
 
-    // 🔄 Attach click count to each URL
-    const enrichedUrls = urls.map((url) => ({
-      ...url,
-      clicks: clickMap[url._id] || 0,
-    }));
+    const enrichedUrls = urls
+      .map((url) => ({
+        ...url,
+        clicks: clickMap[url._id] || 0,
+      }))
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // 🔄 Sorted newest first
 
     return enrichedUrls;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data || 'Failed to fetch URLs');
   }
 });
+
 
 const urlSlice = createSlice({
   name: 'url',

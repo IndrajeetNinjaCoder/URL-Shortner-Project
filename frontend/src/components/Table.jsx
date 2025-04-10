@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUrls } from "../redux/urlSlice";
+import { QRCodeCanvas } from "qrcode.react";
+
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
 export const Table = () => {
   const dispatch = useDispatch();
-  const { urls, loading, error, createdUrl } = useSelector((state) => state.url);
+  const { urls, loading, error, createdUrl } = useSelector(
+    (state) => state.url
+  );
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState(""); // 🔍 Search Term
   const itemsPerPage = 10;
 
   useEffect(() => {
     dispatch(fetchUrls());
   }, [dispatch]);
 
-  // 🔁 Fetch latest URLs when a new URL is created
   useEffect(() => {
     if (createdUrl) {
       dispatch(fetchUrls());
@@ -25,23 +30,47 @@ export const Table = () => {
     alert("Copied to clipboard!");
   };
 
-  // Pagination
-  const totalPages = Math.ceil(urls.length / itemsPerPage);
-  const paginatedData = urls.slice(
+  // 🔍 Filtering based on search term
+  const filteredUrls = urls.filter((item) => {
+    const shortUrl = `${baseUrl}/${item.shortID}`;
+    return (
+      item.redirectURL.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      shortUrl.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredUrls.length / itemsPerPage);
+  const paginatedData = filteredUrls.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
   const goToPrevious = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
-  const goToNext = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  const goToNext = () =>
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
   return (
     <div className="space-y-10">
       <div className="overflow-x-auto shadow-2xl rounded-2xl border border-gray-200 p-4 bg-white">
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">URL Statistics</h1>
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold text-gray-800">URL Statistics</h1>
+          <input
+            type="text"
+            placeholder="Search URLs..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1); // Reset to first page on search
+            }}
+            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
         {loading ? (
-          <p className="text-center text-blue-600 font-semibold">Loading...</p>
+          <div className="flex justify-center items-center py-10">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
         ) : error ? (
           <p className="text-center text-red-600">{error}</p>
         ) : (
@@ -51,6 +80,7 @@ export const Table = () => {
                 <tr>
                   <th className="px-5 py-3">Original URL</th>
                   <th className="px-5 py-3">Short URL</th>
+                  <th className="px-5 py-3">QR</th>
                   <th className="px-5 py-3">Total Clicks</th>
                   <th className="px-5 py-3">Created Date</th>
                   <th className="px-5 py-3">Status</th>
@@ -58,10 +88,15 @@ export const Table = () => {
               </thead>
               <tbody className="text-gray-700">
                 {paginatedData.map((item, index) => {
-                  const shortUrl = `http://localhost:8000/${item.shortID}`;
+                  const shortUrl = `${baseUrl}/${item.shortID}`;
                   return (
-                    <tr key={index} className="border-b border-gray-200 hover:bg-gray-50 transition-all">
-                      <td className="px-5 py-3 max-w-xs truncate text-left">{item.redirectURL}</td>
+                    <tr
+                      key={index}
+                      className="border-b border-gray-200 hover:bg-gray-50 transition-all relative"
+                    >
+                      <td className="px-5 py-3 max-w-xs truncate text-left">
+                        {item.redirectURL}
+                      </td>
                       <td className="px-5 py-3">
                         <div className="flex justify-between items-center">
                           <a
@@ -80,6 +115,15 @@ export const Table = () => {
                           </button>
                         </div>
                       </td>
+
+                      {/* QR Code Column */}
+                      <td className="px-5 py-3 relative group">
+                        <QRCodeCanvas value={shortUrl} size={40} />
+                        <div className="absolute z-10 hidden group-hover:block bg-white border border-gray-300 p-2 rounded shadow-lg top-12 left-1/2 transform -translate-x-1/2">
+                          <QRCodeCanvas value={shortUrl} size={250} />
+                        </div>
+                      </td>
+
                       <td className="px-5 py-3">{item.clicks || 0}</td>
                       <td className="px-5 py-3">
                         {new Date(item.createdAt).toLocaleString()}

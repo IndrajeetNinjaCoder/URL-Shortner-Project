@@ -36,17 +36,17 @@ export const Chart = () => {
     const devices = new Map();
     const browsers = new Map();
     const timeClicksMap = new Map();
-
+  
     clicks.forEach((click) => {
       const deviceType = click.deviceType;
       const browserType = click.browser;
       const date = new Date(click.timestamp).toLocaleDateString();
-
+  
       devices.set(deviceType, (devices.get(deviceType) || 0) + 1);
       browsers.set(browserType, (browsers.get(browserType) || 0) + 1);
       timeClicksMap.set(date, (timeClicksMap.get(date) || 0) + 1);
     });
-
+  
     return {
       deviceData: Array.from(devices.entries()).map(([name, value]) => ({
         name,
@@ -56,11 +56,12 @@ export const Chart = () => {
         name,
         value,
       })),
-      clicksOverTime: Array.from(timeClicksMap.entries()).map(
-        ([date, value]) => ({ date, value })
-      ),
+      clicksOverTime: Array.from(timeClicksMap.entries())
+        .map(([date, value]) => ({ date, value }))
+        .sort((a, b) => new Date(a.date) - new Date(b.date)), // ✅ sort here
     };
   }, [clicks]);
+  
 
   if (loading) return <p className="text-center">Loading charts...</p>;
   if (error) return <p className="text-center text-red-500">Error: {error}</p>;

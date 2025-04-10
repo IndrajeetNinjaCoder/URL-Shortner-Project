@@ -8,7 +8,7 @@ import { nanoid } from "nanoid";
 
 import URL from "../models/Url.js"
 import User from "../models/User.js"
-import Click from "../models/click.js";
+import Click from "../models/Click.js";
 
 
 
