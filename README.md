@@ -1,54 +1,122 @@
+# ⚡ URL Shortener
 
-# ⚡ URL Shortener Frontend
+A **Micro-SaaS URL Shortener** built with the **MERN stack** to simplify long URLs, track analytics, and manage links—all within a beautiful and responsive interface.
 
-This is the **frontend** of the Micro-SaaS URL Shortener application built using **React + Vite**. It allows users to shorten URLs, log in/log out, and view click analytics with a beautiful and responsive UI.
+This project is divided into two main parts:
+- 🔹 **Frontend** – Built with **React + Vite**
+- 🔹 **Backend** – Built with **Node.js + Express + MongoDB**
 
 ---
+
+## ✨ Features at a Glance
+
+### 🔐 Authentication
+- Secure user login via modal (JWT-based)
+
+### ✂️ URL Shortening
+- Instantly shorten long URLs
+- Copy-to-clipboard functionality
+
+### 📊 Analytics
+- Track click stats per shortened URL
+- Interactive pie charts via **Chart.js**
+
+### 🧾 URL Dashboard
+- View all your links in a table
+- Original URL, shortened URL, and click counts
+
+### ⚙️ Tech Stack
+- **Frontend**: React, Vite, Redux Toolkit, Tailwind CSS
+- **Backend**: Node.js, Express, MongoDB, Mongoose
+- **Authentication**: JWT
+- **Styling**: Tailwind CSS
+- **Analytics**: Chart.js
+
+---
+
+# 🖥️ Frontend – React + Vite
 
 ## 🚀 Features
 
-- 🔐 **User Authentication** (Login via modal)
-- ✂️ **URL Shortening** with copy-to-clipboard functionality
-- 📊 **Click Analytics** with Chart.js
-- 🧾 **Table View** of all shortened URLs with counts
-- 🧠 **Redux Toolkit** for global state management
-- 🎨 **Tailwind CSS** for styling
-- 🌈 Smooth animations and responsive design
+- User login via modal
+- Shorten URL with instant feedback
+- Dashboard with table view and click analytics
+- Responsive design with animations
+- Global state with **Redux Toolkit**
 
----
-
-## 📁 Folder Structure
-
-```
-src/
-├── assets/           # Static assets (e.g., icons)
-│   └── react.svg
-├── components/       # Reusable components
-│   ├── Chart.jsx
-│   ├── Navbar.jsx
-│   ├── Table.jsx
-│   └── UrlForm.jsx
-├── redux/            # Redux slices and store config
-│   ├── authSlice.js
-│   ├── clickSlice.js
-│   ├── store.js
-│   └── urlSlice.js
-├── App.jsx           # Main application wrapper
-├── App.css           # Global styles
-├── index.css         # Tailwind base
-├── main.jsx          # Vite entry point
-```
-
----
-
-## 🔧 Environment Setup
+## 🔧 Setup Instructions
 
 ### ✅ Prerequisites
 
-- Node.js >= 16.x
-- NPM >= 8.x
+- Node.js `>= 16.x`
+- NPM `>= 8.x`
 
-### 📦 Install Dependencies
+### 📦 Installation
+
+```bash
+npm install
+```
+
+### 🧪 Environment Variables
+
+Create a `.env` file in the root of the frontend directory:
+
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+```
+
+> Update this to match your backend deployment URL if hosted.
+
+### 💻 Run the Development Server
+
+```bash
+npm run dev
+```
+
+> App will run on `http://localhost:5173`.
+
+---
+
+# 🔐 Authentication Flow
+
+- Login handled via Redux modal
+- JWT token stored in `localStorage`
+- Token used to access protected routes (e.g. URL creation, analytics)
+
+---
+
+## 🔍 Functional Highlights
+
+| Feature         | Description                                               |
+|-----------------|-----------------------------------------------------------|
+| **Login Modal** | Lightweight modal popup for user authentication           |
+| **Shorten URL** | Accepts long URLs and returns shortened version           |
+| **Table View**  | Displays user's links with click count and redirect URLs  |
+| **Analytics**   | Real-time stats via Chart.js                              |
+| **Logout**      | Clears auth data and reverts to guest mode                |
+
+---
+
+# 📦 Backend – Node.js + Express
+
+A RESTful API built to handle user login, URL shortening, and click tracking.
+
+## 🧩 Key Features
+
+- Secure JWT-based login
+- URL shortening and redirection
+- Click tracking and analytics
+- Modular codebase with middleware
+- CORS support for frontend-backend communication
+
+## 🔧 Setup Instructions
+
+### ✅ Prerequisites
+
+- Node.js `>= 16.x`
+- MongoDB instance (local or Atlas)
+
+### 📦 Installation
 
 ```bash
 npm install
@@ -56,114 +124,7 @@ npm install
 
 ### 🔐 Environment Variables
 
-Create a `.env` file in the root directory:
-
-```
-VITE_API_BASE_URL=http://localhost:5000/api
-```
-
-> You can set this URL according to your backend deployment.
-
----
-
-## 💻 Running the App
-
-```bash
-npm run dev
-```
-
-The app will start on `http://localhost:5173`.
-
----
-
-## 🔐 Authentication
-
-Login is handled using Redux and shown as a modal popup. The credentials are sent to the backend API. Upon successful login, a token is stored in memory and used to access protected features like shortening URLs and viewing analytics.
-
----
-
-## 🔍 Functional Highlights
-
-| Feature        | Description                                         |
-|----------------|-----------------------------------------------------|
-| Login Modal    | Toggle-based modal for user login                  |
-| Shorten URL    | Accepts long URL and returns short URL             |
-| Table Display  | List of user's URLs with original, short, and clicks |
-| Analytics      | Displays click stats via pie chart                 |
-| Logout         | Clears auth state and returns to guest mode        |
-
----
-
-## 📸 Screenshots (Optional)
-
-> Add if needed – UI of login, dashboard, chart, etc.
-
----
-
-## 📬 Feedback for Reviewer
-
-- The project is fully modular with separation of components and slices.
-- Clean and reusable code practices were followed.
-- Integrated smooth transitions and conditional rendering logic.
-- Open to adding features like QR generation, pagination, or dark mode upon feedback.
-
----
-
-# 📦 URL Shortener Backend
-
-This is the **Backend API** for the URL Shortener application. It provides RESTful endpoints for URL shortening, user authentication, and click tracking. Built with **Node.js**, **Express**, and **MongoDB**.
-
-## 🚀 Features
-
-- 🔐 User Authentication (Login)
-- 🔗 URL Shortening and Redirection
-- 📊 Click Tracking (Analytics)
-- 🧩 Modular Code Structure
-- 🌐 CORS Enabled for Frontend Communication
-
----
-
-## 📁 Project Structure
-
-```
-backend/
-│
-├── controllers/
-│   └── url.js             # Business logic for shortening and redirecting URLs
-│
-├── models/
-│   ├── Click.js           # Mongoose model for storing click stats
-│   ├── Url.js             # Mongoose model for shortened URLs
-│   └── User.js            # Mongoose model for users
-│
-├── routes/
-│   └── routes.js          # All route definitions (URLs, login, analytics)
-│
-├── connection.js          # MongoDB database connection
-├── index.js               # Main server entry point
-├── .env                   # Environment variables (MONGO_URI, PORT, JWT_SECRET)
-├── package.json           # Project metadata and dependencies
-└── .gitignore             # Files and folders to ignore in git
-```
-
----
-
-## 🔧 Setup Instructions
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/IndrajeetNinjaCoder/URLShortener_backend.git
-cd URLShortener_backend
-```
-
-### 2. Install Dependencies
-
-```bash
-npm install
-```
-
-### 3. Create a `.env` File
+Create a `.env` file in the root of the backend directory:
 
 ```env
 PORT=5000
@@ -171,39 +132,61 @@ MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/url-shortener
 JWT_SECRET=your_jwt_secret
 ```
 
-### 4. Run the Server
+> Replace credentials with your MongoDB Atlas URI and secure JWT secret.
+
+### 🚀 Run the Server
 
 ```bash
 npm start
 ```
 
-The server will run at `http://localhost:5000`.
+> Server will start at `http://localhost:5000`.
 
 ---
 
 ## 🔌 API Endpoints
 
-### Authentication
+### Auth Routes
+| Method | Endpoint            | Description          |
+|--------|---------------------|----------------------|
+| POST   | `/api/auth/login`   | User login           |
 
-- `POST /api/auth/login` — Authenticate user
-
-### URL Management
-
-- `POST /api/shorten` — Shorten a long URL
-- `GET /:shortId` — Redirect to original URL
-- `GET /api/url/all` — Get all shortened URLs
-- `GET /api/url/create` — Short an URL (authenticated)
-- `GET /api/clicks` — Get click analytics
-
----
-
-## 🛠 Tech Stack
-
-- **Node.js** + **Express**
-- **MongoDB** + **Mongoose**
-- **JWT** for authentication
-- **Dotenv** for environment management
+### URL Routes
+| Method | Endpoint             | Description                         |
+|--------|----------------------|-------------------------------------|
+| POST   | `/api/shorten`       | Create a new short URL              |
+| GET    | `/:shortId`          | Redirect to original URL            |
+| GET    | `/api/url/all`       | Get all user-specific URLs          |
+| GET    | `/api/url/create`    | Authenticated URL creation          |
+| GET    | `/api/clicks`        | Get click analytics for URLs        |
 
 ---
 
+# 🔧 Project Structure
 
+```bash
+.
+├── frontend/         # React + Vite App
+│   └── src/
+├── backend/          # Node.js + Express API
+│   └── routes/
+│   └── controllers/
+│   └── models/
+│   └── middleware/
+└── README.md
+```
+
+---
+
+## 📌 Future Improvements
+
+- 🧪 Unit & integration testing
+- 🔄 Refresh tokens for auth
+- 📁 File upload or QR generation
+- 🔔 Notifications & rate limiting
+
+---
+
+## 🛡️ License
+
+This project is open-source and free to use under the [MIT License](https://opensource.org/licenses/MIT).
