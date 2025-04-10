@@ -158,7 +158,7 @@ npm start
 | GET    | `/:shortId`          | Redirect to original URL            |
 | GET    | `/api/url/all`       | Get all user-specific URLs          |
 | GET    | `/api/url/create`    | Authenticated URL creation          |
-| GET    | `/api/clicks`        | Get click analytics for URLs        |
+| GET    | `/api/clicks`        | Get data of all clicks              |
 
 ---
 
@@ -176,17 +176,3 @@ npm start
 └── README.md
 ```
 
----
-
-## 📌 Future Improvements
-
-- 🧪 Unit & integration testing
-- 🔄 Refresh tokens for auth
-- 📁 File upload or QR generation
-- 🔔 Notifications & rate limiting
-
----
-
-## 🛡️ License
-
-This project is open-source and free to use under the [MIT License](https://opensource.org/licenses/MIT).
