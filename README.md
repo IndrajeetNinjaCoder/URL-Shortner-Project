@@ -1,4 +1,5 @@
 # ⚡ URL Shortener
+Live here: https://shortify-your-url.netlify.app/
 
 A **Micro-SaaS URL Shortener** built with the **MERN stack** to simplify long URLs, track analytics, and manage links—all within a beautiful and responsive interface.
 
